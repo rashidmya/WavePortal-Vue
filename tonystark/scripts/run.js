@@ -7,27 +7,24 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const [owner, randomPerson] = await hre.ethers.getSigners();
   const WaveContractFactory = await hre.ethers.getContractFactory("WavePortal");
   const waveContract = await WaveContractFactory.deploy();
-
   await waveContract.deployed();
-
   console.log("Contract deployed to:", waveContract.address);
-  console.log("Contract deployed by:", owner.address);
 
   let waveCount;
-  await waveContract.getTotalWaves();
+  waveCount = await waveContract.getTotalWaves();
+  console.log(waveCount.toNumber());
 
-  let waveTxn = await waveContract.wave();
+  let waveTxn = await waveContract.wave("This is a message");
   await waveTxn.wait();
 
-  await waveContract.getTotalWaves();
-
-  waveTxn = await waveContract.connect(randomPerson).wave();
-  await waveTxn.wait();
-
-  await waveContract.getTotalWaves();
+  const [_, randomPerson] = await hre.ethers.getSigners();
+  waveTxn = await waveContract.connect(randomPerson).wave("Another message!");
+  await waveTxn.wait(); // Wait for the transaction to be mined
+  
+  let allWaves = await waveContract.getAllWaves();
+  console.log(allWaves);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
