@@ -18,7 +18,7 @@ async function wave() {
       let count = await wavePortalContract.getTotalWaves();
       console.log("Retrieved total wave count...", count.toNumber());
 
-      const waveTxn = await wavePortalContract.wave();
+      const waveTxn = await wavePortalContract.wave("this is a message")
       console.log("Mining...", waveTxn.hash);
 
       await waveTxn.wait();
