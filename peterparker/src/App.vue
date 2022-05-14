@@ -93,7 +93,7 @@ onMounted(() => {
       </div>
 
       <div class="bio">
-        Connect your Ethereum wallet and wave at me!
+        Connect your Ethereum wallet to Goerli Test Network and wave at me!
       </div>
 
       <WaveButton></WaveButton>
