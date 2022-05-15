@@ -75,7 +75,7 @@ onMounted(() => {
         Connect your Ethereum wallet to Goerli Test Network and wave at me!
       </div>
 
-      <ConnectButton v-if="!currentAccount"></ConnectButton>
+      <ConnectButton @connected="getAllWaves" v-if="!currentAccount"></ConnectButton>
 
       <WaveButton @wave="getAllWaves" v-else></WaveButton>
 

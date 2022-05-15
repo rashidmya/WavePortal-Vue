@@ -3,6 +3,8 @@ import { useAccountStore } from '@/stores/account'
 
 const { setCurrentAccount } = useAccountStore();
 
+const emit = defineEmits(['connected'])
+
 async function connectWallet() {
     try {
         const { ethereum } = <any>window;
@@ -16,6 +18,7 @@ async function connectWallet() {
         setCurrentAccount(accounts[0]);
 
         console.log("Connected", accounts[0]);
+        emit("connected");
     } catch (error) {
         console.log(error);
     }
