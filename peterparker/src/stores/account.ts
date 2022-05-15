@@ -12,6 +12,6 @@ export const useAccountStore = defineStore("account", {
     },
   },
   getters: {
-    currentAccount: (state) => state.account
-  }
+    currentAccount: (state) => state.account,
+  },
 });

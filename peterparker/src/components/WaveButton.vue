@@ -1,9 +1,11 @@
 <script lang="ts" setup>
+import { ref } from "vue";
 import { ethers } from "ethers";
-import abi from "@/utils/WavePortal.json";
+import { contractAddress, contractABI } from "@/config/contract"
 
-const contractAddress = "0xC5Fb425B8f97dBD2B030ec5d60cfa385e078BA7f";
-const contractABI = abi.abi;
+const emit = defineEmits(['wave'])
+
+const message = ref("");
 
 async function wave() {
   try {
@@ -18,7 +20,7 @@ async function wave() {
       let count = await wavePortalContract.getTotalWaves();
       console.log("Retrieved total wave count...", count.toNumber());
 
-      const waveTxn = await wavePortalContract.wave("this is a message")
+      const waveTxn = await wavePortalContract.wave(message.value)
       console.log("Mining...", waveTxn.hash);
 
       await waveTxn.wait();
@@ -26,6 +28,9 @@ async function wave() {
 
       count = await wavePortalContract.getTotalWaves();
       console.log("Retrieved total wave count...", count.toNumber());
+
+      message.value = "";
+      emit("wave");
     } else {
       console.log("Ethereum object doesn't exist!");
     }
@@ -36,7 +41,12 @@ async function wave() {
 </script>
 
 <template>
-    <button class="waveButton" @click="wave">
-        Wave at Me
-      </button>
+  <div style="margin-top: 4em;">
+    <textarea style="display:block; resize: none; width: 100%;" v-model="message" rows="5" />
+    <button style="width: 100%;" class="waveButton" @click="wave">
+      Wave at Me
+    </button>
+  </div>
+
+
 </template>
